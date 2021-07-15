@@ -6,3 +6,7 @@ module "resource_group" {
   names    = local.resource_group_name
   tags     = var.names.tags
 }
+
+module "vnet" {
+  source = "./modules/virtual-network/"
+}

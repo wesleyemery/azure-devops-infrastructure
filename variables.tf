@@ -3,6 +3,6 @@ variable "names" {
   type = object({
     app_name             = string
     location             = string
-    tags                 = map
+    tags                 = map(string)
   })
 }
