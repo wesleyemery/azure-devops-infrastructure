@@ -15,9 +15,6 @@ Once the plan command has passed run:
 ```
 terraform apply
 ```
-This command will deploy the Resource Groups, ACR, and VNets.
-
-These steps can also be completed through the TFE console: https://tfe.lnrisk.io/
 
 ## Steps Completed
 ### Part 1: Create Diagram, Resource Group, Virtual Network, Subnets, AKS Cluster, and Nginx Ingress Controller
