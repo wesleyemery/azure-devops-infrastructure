@@ -4,5 +4,5 @@ resource "azurerm_container_registry" "acr" {
   location                 = var.location
   sku                      = var.sku
   admin_enabled            = false
-  georeplication_locations = ["Central US"]
+  tags = var.tags
 }
