@@ -1,4 +1,3 @@
-
 variable "names" {
   description = "Names to be applied to resources (inclusive)"
   type = object({

@@ -89,19 +89,17 @@ module "kube" {
   virtual_network = {
     subnets = {
       private = {
-        id = module.virtual_network.subnet.
+        id = data.azurerm_subnet.private-subnet.id
       }
       public = {
-        id = var.pub-subnet_id
+        id = data.azurerm_subnet.public-subnet.id
       }
     }
-    route_table_id = var.route_table_id
+    route_table_id = data.azurerm_subnet.private-subnet.route_table_id
   }
 
   default_node_pool = "system"
-  # You need to take into account max pods due to ip range
-  # so if /26, only have 59 available ips
-  # so max_node_count * max_pofd = # of ips which has to < available ips
+
   node_pools = {
     system = {
       subnet                       = "private"
@@ -111,21 +109,19 @@ module "kube" {
     }
 
     nodepool1 = {
-      vm_size             = var.vmsize
+      vm_size             = "Standard_B2s"
       enable_auto_scaling = true
-      min_count           = var.vm_mincount
-      max_count           = var.vm_maxcount
+      min_count           = 1
+      max_count           = 3
       subnet              = "private"
-      # max_pods            = 30
     }
 
     nodepool1 = {
-      vm_size             = var.vmsize
+      vm_size             = "Standard_B2s"
       enable_auto_scaling = true
-      min_count           = var.vm_mincount
-      max_count           = var.vm_maxcount
+      min_count           = 1
+      max_count           = 3
       subnet              = "public"
-      # max_pods            = 30
     }
   }
 }
