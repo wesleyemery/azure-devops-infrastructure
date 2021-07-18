@@ -1,0 +1,11 @@
+controller:
+  nodeSelector:
+    beta.kubernetes.io/os: linux
+  replicaCount: "1"
+  ingressClass: "nginx"
+  service:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "false"
+defaultBackend:
+  nodeSelector:
+    beta.kubernetes.io/os: linux

@@ -59,7 +59,7 @@ module "virtual_network" {
 }
 
 module "kube" {
-  source  = "github.com/Azure-Terraform/terraform-azurerm-kubernetes.git?ref=v4.0.0"
+  source = "github.com/Azure-Terraform/terraform-azurerm-kubernetes.git?ref=v4.0.0"
 
   location            = var.names.location
   names               = module.metadata.names
@@ -124,6 +124,13 @@ module "kube" {
       subnet              = "public"
     }
   }
+}
+
+module "nginx" {
+  source           = "./modules/nginx-ingress/"
+  name             = var.ingress_name
+  namespace        = var.namespace
+  create_namespace = var.create_namespace
 }
 
 module "acr" {
