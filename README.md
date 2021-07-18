@@ -1,4 +1,4 @@
-## Azure Demo Infrastructure - Resource Group, Virtual Network, Subnets, AKS Cluster, and Nginx Ingress
+## Azure Demo Infrastructure - Resource Group, Virtual Network, Subnets, Route tables, NSG's, AKS Cluster, and Nginx Ingress
 
 Below is a diagram of the solution architecture we are building towards. This visual allows us to understand the whole of the solution as we are working on the various components.
 
@@ -18,11 +18,15 @@ terraform apply
 
 ## Steps Completed
 ### Part 1: Create Diagram, Resource Group, Virtual Network, Subnets, AKS Cluster, and Nginx Ingress Controller
-- [ ] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-infrastruc)
+- [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-infrastruc)
 - [ ] Task 2: Create Azure Demo Infrastructure Diagram
-- [ ] Task 3: Create Resource Group
-- [ ] Task 4: Create Virtual Network
-- [ ] Task 5: Create Subnets
-- [ ] Task 6: Create AKS Cluster
-- [ ] Task 7: Create Nginx Ingress
-
+- [X] Task 3: Create Resource Group
+- [X] Task 4: Create Virtual Network
+- [X] Task 5: Create Subnets
+- [X] Task 6: Create Route Tables
+- [X] Task 7: Create NSGs
+- [X] Task 8: Create AKS Cluster
+- [X] Task 9: Create Nodepools
+- [X] Task 10: Create Nginx Ingress
+- [X] Task 11: Create DNS Zone
+- [X] Task 12: Create A Record
