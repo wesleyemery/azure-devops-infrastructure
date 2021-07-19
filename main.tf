@@ -14,16 +14,16 @@ module "metadata" {
 
   naming_rules = module.naming.yaml
 
-  market              = "us"
-  project             = "https://github.com/Azure-Terraform/terraform-azurerm-virtual-network/tree/master/example/bastion"
-  location            = "eastus2"
+  market              = var.names.market
+  project             = var.names.project
+  location            = var.names.location
   environment         = "sandbox"
   product_name        = random_string.random.result
-  business_unit       = "infra"
-  product_group       = "contoso"
+  business_unit       = var.names.business_unit
+  product_group       = var.names.business_unit
   subscription_id     = var.names.subscription_id
-  subscription_type   = "dev"
-  resource_group_type = "app"
+  subscription_type   = var.names.subscription_type
+  resource_group_type = var.names.resource_group_type
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -131,6 +131,23 @@ module "nginx" {
   name             = var.ingress_name
   namespace        = var.namespace
   create_namespace = var.create_namespace
+}
+
+module "dns_zone" {
+  source              = "./modules/dns-zone"
+  tags                = module.metadata.tags
+  parent_domain       = var.parent_domain
+  subscription_id     = var.names.subscription_id
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+module "dns" {
+  source              = "./modules/dns"
+  depends_on = [module.nginx, module.dns_zone]
+  name                = var.dns_name
+  resource_group_name = azurerm_resource_group.rg.name
+  zone_name           = module.dns_zone.name
+  records             = ["10.1.0.24"]
 }
 
 module "acr" {

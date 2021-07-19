@@ -8,7 +8,7 @@ data "azurerm_virtual_network" "vnet" {
 
 data "azurerm_subnet" "private-subnet" {
   name                 = "iaas-private"
-  virtual_network_name = module.metadata.names
+  virtual_network_name = "infra-dev-eastus2-vnet"
   resource_group_name  = azurerm_resource_group.rg.name
 }
 
@@ -19,7 +19,7 @@ data "azurerm_subnet" "public-subnet" {
 }
 
 data "kubernetes_service" "nginx" {
-  provider = kubernetes
+  provider   = kubernetes
   depends_on = [module.nginx]
   metadata {
     name      = var.ingress_name

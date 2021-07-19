@@ -43,3 +43,15 @@ variable "create_namespace" {
   type        = bool
   default     = false
 }
+
+# DNS Zone Variables
+variable "parent_domain" {
+  description = "pre-existing parent domain in which to create the NS record for the child domain"
+  type        = string
+}
+
+# DNS Record
+variable "dns_name" {
+  description = "DNS name"
+  type        = string
+}
