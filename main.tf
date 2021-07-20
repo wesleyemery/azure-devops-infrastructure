@@ -47,13 +47,27 @@ module "virtual_network" {
     iaas-public = { cidrs = ["10.1.0.0/24"]
       allow_vnet_inbound  = true
       allow_vnet_outbound = true
+      allow_internet_outbound = true
+      route_table_association = "default"
+
     }
     iaas-private = { cidrs = ["10.1.1.0/24"]
       allow_vnet_inbound  = true
       allow_vnet_outbound = true
+      allow_internet_outbound = true
+      route_table_association = "default"
+
     }
-    GatewaySubnet = { cidrs = ["10.1.2.0/24"]
-      create_network_security_group = false
+  }
+  route_tables = {
+    default = {
+      disable_bgp_route_propagation = true
+      routes = {
+        internet = {
+          address_prefix = "0.0.0.0/0"
+          next_hop_type = "Internet"
+        }
+      }
     }
   }
 }
@@ -89,13 +103,13 @@ module "kube" {
   virtual_network = {
     subnets = {
       private = {
-        id = data.azurerm_subnet.private-subnet.id
+        id = module.virtual_network.subnets["iaas-private"].id
       }
       public = {
-        id = data.azurerm_subnet.public-subnet.id
+        id = module.virtual_network.subnets["iaas-public"].id
       }
     }
-    route_table_id = data.azurerm_subnet.private-subnet.route_table_id
+    route_table_id = data.azurerm_route_table.rtable.id
   }
 
   default_node_pool = "system"
