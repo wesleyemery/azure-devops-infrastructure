@@ -67,6 +67,10 @@ module "virtual_network" {
           address_prefix = "0.0.0.0/0"
           next_hop_type = "Internet"
         }
+        local-vnet = {
+          address_prefix = 10.1.0.0/21"
+          next_hop_type  = "vnetlocal"
+        }
       }
     }
   }
