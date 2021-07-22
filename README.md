@@ -16,7 +16,7 @@ terraform apply
 ```
 
 ## Steps Completed
-###Part 1: Create Infrastructure:
+### Part 1: Create Infrastructure:
 
 - [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-infrastructure)
 - [X] Task 2: Create Azure Demo Infrastructure Diagram
@@ -32,7 +32,7 @@ terraform apply
 - [X] Task 12: Create A Record
 - [X] Task 13: Create ArgoCD Deployment
 
-###Part 2: Deploy Guestbook Application:
+### Part 2: Deploy Guestbook Application:
 - [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-app.git)
 - [X] Task 2: Create Redis Helm Chart
 - [X] Task 3: Create Guestbook Helm Chart
