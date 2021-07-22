@@ -1,4 +1,7 @@
-## Azure Demo Infrastructure - Resource Group, Virtual Network, Subnets, Route tables, NSG's, AKS Cluster, and Nginx Ingress
+## Azure Demo Infrastructure 
+
+### Diagram
+![Alt text](docs/demoDiagram.png?raw=true "Infrastructure Diagram")
 
 ### Deployment
 The steps in deploying the newly configured infrastructure are to run:
@@ -13,7 +16,6 @@ terraform apply
 ```
 
 ## Steps Completed
-### Part 1: Create Diagram, Resource Group, Virtual Network, Subnets, AKS Cluster, and Nginx Ingress Controller
 - [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-infrastructure)
 - [X] Task 2: Create Azure Demo Infrastructure Diagram
 - [X] Task 3: Create Resource Group
