@@ -16,6 +16,8 @@ terraform apply
 ```
 
 ## Steps Completed
+###Part 1: Create Infrastructure:
+
 - [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-infrastructure)
 - [X] Task 2: Create Azure Demo Infrastructure Diagram
 - [X] Task 3: Create Resource Group
@@ -24,11 +26,17 @@ terraform apply
 - [X] Task 6: Create Route Tables
 - [X] Task 7: Create NSGs
 - [X] Task 8: Create AKS Cluster
-- [X] Task 9: Create Nodepools
+- [X] Task 9: Create Public and Private Nodepool
 - [X] Task 10: Create Nginx Ingress
 - [X] Task 11: Create DNS Zone
 - [X] Task 12: Create A Record
 - [X] Task 13: Create ArgoCD Deployment
+
+###Part 2: Deploy Guestbook Application:
+- [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-app.git)
+- [X] Task 2: Create Redis Helm Chart
+- [X] Task 3: Create Guestbook Helm Chart
+- [X] Task 4: Deploy to cluster using ArgoCD
 
 <!--- BEGIN_TF_DOCS --->
 ## Providers
