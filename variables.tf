@@ -29,7 +29,12 @@ variable "sku" {
 
 # Nginx Ingress Variables
 variable "ingress_name" {
-  description = "Names for ingress controller"
+  description = "Name of ingress controller"
+  type        = string
+}
+
+variable "ingress_service_name" {
+  description = "Name of ingress controller service"
   type        = string
 }
 

@@ -40,36 +40,31 @@ module "virtual_network" {
   names               = module.metadata.names
   tags                = module.metadata.tags
 
-  address_space        = ["10.1.0.0/21"]
-  enforce_subnet_names = false
+  address_space = ["10.1.0.0/21"]
+
 
   subnets = {
     iaas-public = { cidrs = ["10.1.0.0/24"]
-      allow_vnet_inbound  = true
-      allow_vnet_outbound = true
+      allow_vnet_inbound      = true
+      allow_vnet_outbound     = true
       allow_internet_outbound = true
       route_table_association = "default"
-
     }
     iaas-private = { cidrs = ["10.1.1.0/24"]
-      allow_vnet_inbound  = true
-      allow_vnet_outbound = true
+      allow_vnet_inbound      = true
+      allow_vnet_outbound     = true
       allow_internet_outbound = true
       route_table_association = "default"
-
     }
   }
   route_tables = {
     default = {
+      use_inline_routes             = false
       disable_bgp_route_propagation = true
       routes = {
         internet = {
           address_prefix = "0.0.0.0/0"
-          next_hop_type = "Internet"
-        }
-        local-vnet = {
-          address_prefix = 10.1.0.0/21"
-          next_hop_type  = "vnetlocal"
+          next_hop_type  = "Internet"
         }
       }
     }
@@ -77,7 +72,9 @@ module "virtual_network" {
 }
 
 module "kube" {
-  source = "github.com/Azure-Terraform/terraform-azurerm-kubernetes.git?ref=v4.0.0"
+  source     = "github.com/Azure-Terraform/terraform-azurerm-kubernetes.git?ref=v4.0.0"
+  depends_on = [module.virtual_network]
+
 
   location            = var.names.location
   names               = module.metadata.names
@@ -134,7 +131,7 @@ module "kube" {
       subnet              = "private"
     }
 
-    nodepool1 = {
+    nodepool2 = {
       vm_size             = "Standard_B2s"
       enable_auto_scaling = true
       min_count           = 1
@@ -146,26 +143,34 @@ module "kube" {
 
 module "nginx" {
   source           = "./modules/nginx-ingress/"
+  depends_on       = [module.kube]
   name             = var.ingress_name
   namespace        = var.namespace
   create_namespace = var.create_namespace
 }
 
 module "dns_zone" {
-  source              = "./modules/dns-zone"
+  source              = "./modules/dns-zone/"
   tags                = module.metadata.tags
   parent_domain       = var.parent_domain
   subscription_id     = var.names.subscription_id
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-module "dns" {
-  source              = "./modules/dns"
+/*module "dns" {
+  source              = "./modules/dns/"
   depends_on = [module.nginx, module.dns_zone]
   name                = var.dns_name
   resource_group_name = azurerm_resource_group.rg.name
   zone_name           = module.dns_zone.name
-  records             = ["10.1.0.24"]
+  records             = [data.kubernetes_service.nginx.load_balancer_ingress.0.ip]
+}*/
+
+module "argocd" {
+  source           = "./modules/argocd/"
+  name             = "argocd"
+  namespace        = "argocd"
+  create_namespace = true
 }
 
 module "acr" {
