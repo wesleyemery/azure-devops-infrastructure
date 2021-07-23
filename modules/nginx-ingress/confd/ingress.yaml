@@ -1,11 +1,15 @@
 controller:
+  config:
+    enable-real-ip: true
   nodeSelector:
-    beta.kubernetes.io/os: linux
+    agentpool: "nodepool2"
   replicaCount: "1"
   ingressClass: "nginx"
   service:
+    externalTrafficPolicy: "Local"
     annotations:
-      service.beta.kubernetes.io/azure-load-balancer-internal: "false"
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+
 defaultBackend:
   nodeSelector:
-    beta.kubernetes.io/os: linux
+    agentpool: "nodepool2"

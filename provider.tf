@@ -1,7 +1,6 @@
 provider "azurerm" {
   features {}
 }
-
 provider "kubernetes" {
   host                   = module.kube.host
   client_certificate     = base64decode(module.kube.client_certificate)

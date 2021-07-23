@@ -1,11 +1,7 @@
-variable "name" {
-  description = "Names for ingress controller"
-  type        = string
-}
-
 variable "namespace" {
   description = "Namespace for ingress controller"
   type = string
+  default = ""
 }
 
 variable "create_namespace" {

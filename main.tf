@@ -144,10 +144,24 @@ module "kube" {
 module "nginx" {
   source           = "./modules/nginx-ingress/"
   depends_on       = [module.kube]
-  name             = var.ingress_name
   namespace        = var.namespace
   create_namespace = var.create_namespace
 }
+
+resource "azurerm_network_security_rule" "ingress_public_allow_nginx" {
+  name                        = "AllowNginx"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "Internet"
+  destination_address_prefix  = data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip
+  resource_group_name         = module.virtual_network.subnets["iaas-public"].resource_group_name
+  network_security_group_name = module.virtual_network.subnets["iaas-public"].network_security_group_name
+}
+
 
 module "dns_zone" {
   source              = "./modules/dns-zone/"
@@ -157,14 +171,14 @@ module "dns_zone" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-/*module "dns" {
+module "dns" {
   source              = "./modules/dns/"
-  depends_on = [module.nginx, module.dns_zone]
+  depends_on          = [module.nginx, module.dns_zone]
   name                = var.dns_name
   resource_group_name = azurerm_resource_group.rg.name
   zone_name           = module.dns_zone.name
-  records             = [data.kubernetes_service.nginx.load_balancer_ingress.0.ip]
-}*/
+  records             = [data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip]
+}
 
 module "argocd" {
   source           = "./modules/argocd/"

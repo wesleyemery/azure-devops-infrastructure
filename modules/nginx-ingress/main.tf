@@ -1,7 +1,7 @@
 #Nginx Ingress
 resource "helm_release" "nginx" {
   provider   = helm
-  name       = "anheuser-ingress"
+  name       = var.namespace
   chart            = "ingress-nginx"
   repository       = "https://kubernetes.github.io/ingress-nginx"
   namespace  = var.namespace
