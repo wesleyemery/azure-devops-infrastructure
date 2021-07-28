@@ -17,7 +17,7 @@ module "metadata" {
   market              = var.names.market
   project             = var.names.project
   location            = var.names.location
-  environment         = "sandbox"
+  environment         = var.names.environment
   product_name        = random_string.random.result
   business_unit       = var.names.business_unit
   product_group       = var.names.business_unit
@@ -162,7 +162,6 @@ resource "azurerm_network_security_rule" "ingress_public_allow_nginx" {
   network_security_group_name = module.virtual_network.subnets["iaas-public"].network_security_group_name
 }
 
-
 module "dns_zone" {
   source              = "./modules/dns-zone/"
   tags                = module.metadata.tags
@@ -180,12 +179,6 @@ module "dns" {
   records             = [data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip]
 }
 
-module "argocd" {
-  source           = "./modules/argocd/"
-  name             = "argocd"
-  namespace        = "argocd"
-  create_namespace = true
-}
 
 module "acr" {
   source              = "./modules/acr/"

@@ -7,7 +7,6 @@ data "kubernetes_service" "nginx" {
     name      = format("%s-ingress-nginx-controller", var.namespace)
     namespace = var.namespace
   }
-
 }
 
 data "azurerm_route_table" "rtable" {
