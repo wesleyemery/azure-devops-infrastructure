@@ -1,3 +1,6 @@
+
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+
 ## Azure Demo Infrastructure 
 
 ### Diagram
@@ -53,8 +56,6 @@ terraform apply
 |------|-------------|------|---------|:-----:|
 | create\_namespace | Boolean to create namespace | `bool` | `false` | no |
 | dns\_name | DNS name | `string` | n/a | yes |
-| ingress\_name | Name of ingress controller | `string` | n/a | yes |
-| ingress\_service\_name | Name of ingress controller service | `string` | n/a | yes |
 | names | Names to be applied to resources (inclusive) | <pre>object({<br>    environment         = string<br>    location            = string<br>    market              = string<br>    business_unit       = string<br>    product_name        = string<br>    project             = string<br>    product_group       = string<br>    resource_group_type = string<br>    subscription_type   = string<br>    resource_group_type = string<br>    subscription_id     = string<br><br>  })</pre> | n/a | yes |
 | namespace | Namespace for ingress controller | `string` | n/a | yes |
 | parent\_domain | pre-existing parent domain in which to create the NS record for the child domain | `string` | n/a | yes |
@@ -62,5 +63,7 @@ terraform apply
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| aks\_login | n/a |
 <!--- END_TF_DOCS --->
