@@ -179,7 +179,6 @@ module "dns" {
   records             = [data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip]
 }
 
-
 module "acr" {
   source              = "./modules/acr/"
   name                = "acr${random_string.random.result}"

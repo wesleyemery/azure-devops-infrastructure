@@ -33,13 +33,12 @@ terraform apply
 - [X] Task 10: Create Nginx Ingress
 - [X] Task 11: Create DNS Zone
 - [X] Task 12: Create A Record
-- [X] Task 13: Create ArgoCD Deployment
 
 ### Part 2: Deploy Guestbook Application:
 - [X] Task 1: [Create github repository](https://github.com/wesleyemery/azure-devops-app.git)
 - [X] Task 2: Create Redis Helm Chart
 - [X] Task 3: Create Guestbook Helm Chart
-- [X] Task 4: Deploy to cluster using ArgoCD
+- [X] Task 4: Deploy to cluster using Helm
 
 <!--- BEGIN_TF_DOCS --->
 ## Providers
