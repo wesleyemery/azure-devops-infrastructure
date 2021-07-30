@@ -149,13 +149,14 @@ module "nginx" {
 }
 
 resource "azurerm_network_security_rule" "ingress_public_allow_nginx" {
+  depends_on                  = [module.argocd]
   name                        = "AllowNginx"
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "tcp"
   source_port_range           = "*"
-  destination_port_range      = "80"
+  destination_port_range      = "*"
   source_address_prefix       = "Internet"
   destination_address_prefix  = data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip
   resource_group_name         = module.virtual_network.subnets["iaas-public"].resource_group_name
@@ -177,6 +178,21 @@ module "dns" {
   resource_group_name = azurerm_resource_group.rg.name
   zone_name           = module.dns_zone.name
   records             = [data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip]
+}
+
+module "argocd" {
+  source           = "./modules/argocd/"
+  name             = "argocd"
+  namespace        = "argocd"
+  create_namespace = true
+}
+
+resource "null_resource" "aks_connect" {
+  depends_on = [module.kube]
+  provisioner "local-exec" {
+    command     = "az aks get-credentials --name ${module.kube.name} --resource-group ${azurerm_resource_group.rg.name}"
+    interpreter = ["PowerShell", "-Command"]
+  }
 }
 
 module "acr" {

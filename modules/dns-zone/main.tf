@@ -4,6 +4,7 @@ resource "azurerm_dns_zone" "zone" {
   tags                = var.tags
 }
 
+/*
 resource "azurerm_dns_ns_record" "child" {
   name                = var.parent_domain
   zone_name           = lower(var.parent_domain)
@@ -12,4 +13,4 @@ resource "azurerm_dns_ns_record" "child" {
   tags                = var.tags
 
   records = azurerm_dns_zone.zone.name_servers
-}
+}*/
