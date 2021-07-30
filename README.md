@@ -46,6 +46,7 @@ terraform apply
 |------|---------|
 | azurerm | >= 2.57 |
 | kubernetes | >=2.0.0 |
+| null | n/a |
 | random | n/a |
 
 ## Inputs
