@@ -1,2 +1,6 @@
-service:
-  type: "LoadBalancer"
+server:
+  service:
+    type: "LoadBalancer"
+  nodeSelector:
+    agentpool: "nodepool2"
+

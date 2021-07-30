@@ -18,9 +18,9 @@ module "metadata" {
   project             = var.names.project
   location            = var.names.location
   environment         = var.names.environment
-  product_name        = random_string.random.result
+  product_name        = var.names.product_name
   business_unit       = var.names.business_unit
-  product_group       = var.names.business_unit
+  product_group       = var.names.product_group
   subscription_id     = var.names.subscription_id
   subscription_type   = var.names.subscription_type
   resource_group_type = var.names.resource_group_type
@@ -40,8 +40,7 @@ module "virtual_network" {
   names               = module.metadata.names
   tags                = module.metadata.tags
 
-  address_space = ["10.1.0.0/21"]
-
+  address_space = ["10.1.0.0/23"]
 
   subnets = {
     iaas-public = { cidrs = ["10.1.0.0/24"]
@@ -75,7 +74,6 @@ module "kube" {
   source     = "github.com/Azure-Terraform/terraform-azurerm-kubernetes.git?ref=v4.0.0"
   depends_on = [module.virtual_network]
 
-
   location            = var.names.location
   names               = module.metadata.names
   tags                = module.metadata.tags
@@ -85,12 +83,6 @@ module "kube" {
   configure_network_role = true
   network_plugin         = "kubenet"
 
-  network_profile_options = {
-    docker_bridge_cidr = "192.167.0.1/16"
-    dns_service_ip     = "192.168.1.1"
-    service_cidr       = "192.168.0.0/16"
-  }
-
   acr_pull_access = {
     "acregistry" = module.acr.id
   }
@@ -99,7 +91,6 @@ module "kube" {
     enabled        = false
     ad_integration = false
   }
-
 
   virtual_network = {
     subnets = {
@@ -148,18 +139,19 @@ module "nginx" {
   create_namespace = var.create_namespace
 }
 
-resource "azurerm_network_security_rule" "ingress_public_allow_nginx" {
-  depends_on                  = [module.argocd]
-  name                        = "AllowNginx"
-  priority                    = 100
+resource "azurerm_network_security_rule" "ingress_public_allow" {
+  depends_on                  = [module.kube, module.argocd, module.nginx]
+  for_each                    = local.nsg_obj
+  name                        = format("%s.nsg", each.key)
+  priority                    = each.value.priority
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "tcp"
   source_port_range           = "*"
-  destination_port_range      = "*"
+  destination_port_range      = each.value.port
   source_address_prefix       = "Internet"
-  destination_address_prefix  = data.kubernetes_service.nginx.status.0.load_balancer.0.ingress.0.ip
-  resource_group_name         = module.virtual_network.subnets["iaas-public"].resource_group_name
+  destination_address_prefix  = each.value.ip
+  resource_group_name         = azurerm_resource_group.rg.name
   network_security_group_name = module.virtual_network.subnets["iaas-public"].network_security_group_name
 }
 
@@ -187,14 +179,6 @@ module "argocd" {
   create_namespace = true
 }
 
-resource "null_resource" "aks_connect" {
-  depends_on = [module.kube]
-  provisioner "local-exec" {
-    command     = "az aks get-credentials --name ${module.kube.name} --resource-group ${azurerm_resource_group.rg.name}"
-    interpreter = ["PowerShell", "-Command"]
-  }
-}
-
 module "acr" {
   source              = "./modules/acr/"
   name                = "acr${random_string.random.result}"
@@ -202,4 +186,12 @@ module "acr" {
   location            = var.names.location
   sku                 = var.sku
   tags                = module.metadata.tags
+}
+
+resource "null_resource" "aks_connect" {
+  depends_on = [module.kube]
+  provisioner "local-exec" {
+    command     = "az aks get-credentials --name ${module.kube.name} --resource-group ${azurerm_resource_group.rg.name}"
+    interpreter = ["PowerShell", "-Command"]
+  }
 }

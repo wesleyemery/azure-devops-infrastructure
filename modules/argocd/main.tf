@@ -6,7 +6,7 @@ resource "helm_release" "argocd" {
   create_namespace = var.create_namespace
   timeout = "300"
 
-/*  values = [
+  values = [
     file("${path.module}/confd/argocd.yaml")
-  ]*/
+  ]
 }
