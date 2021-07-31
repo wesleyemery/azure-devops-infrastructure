@@ -51,14 +51,6 @@ variable "dns_name" {
   type        = string
 }
 
-variable "ingress_ip" {
-  default = ""
-}
-
-variable "argo_ingress_ip" {
-  default = ""
-}
-
 variable "rules" {
   default = {
     "rule1" = {
