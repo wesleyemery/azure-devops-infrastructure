@@ -46,18 +46,20 @@ terraform apply
 |------|---------|
 | azurerm | >= 2.57 |
 | kubernetes | >=2.0.0 |
-| null | n/a |
 | random | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
+| argo\_ingress\_ip | n/a | `string` | `""` | no |
 | create\_namespace | Boolean to create namespace | `bool` | `false` | no |
 | dns\_name | DNS name | `string` | n/a | yes |
+| ingress\_ip | n/a | `string` | `""` | no |
 | names | Names to be applied to resources (inclusive) | <pre>object({<br>    environment         = string<br>    location            = string<br>    market              = string<br>    business_unit       = string<br>    product_name        = string<br>    project             = string<br>    product_group       = string<br>    resource_group_type = string<br>    subscription_type   = string<br>    resource_group_type = string<br>    subscription_id     = string<br><br>  })</pre> | n/a | yes |
 | namespace | Namespace for ingress controller | `string` | n/a | yes |
 | parent\_domain | pre-existing parent domain in which to create the NS record for the child domain | `string` | n/a | yes |
+| rules | n/a | `map` | <pre>{<br>  "rule1": {<br>    "ip": "",<br>    "name": "nginxAllowHTTPInbound",<br>    "port": "80",<br>    "priority": "200",<br>    "type": "nginx"<br>  },<br>  "rule2": {<br>    "ip": "",<br>    "name": "nginxAllowHTTPSInbound",<br>    "port": "443",<br>    "priority": "201",<br>    "type": "nginx"<br>  },<br>  "rule3": {<br>    "ip": "",<br>    "name": "argocdAllowHTTPInbound",<br>    "port": "80",<br>    "priority": "202",<br>    "type": "argocd"<br>  },<br>  "rule4": {<br>    "ip": "",<br>    "name": "argocdAllowHTTPSInbound",<br>    "port": "443",<br>    "priority": "203",<br>    "type": "argocd"<br>  }<br>}</pre> | no |
 | sku | The SKU name of the container registry. Possible values are Basic, Standard and Premium | `string` | `"Basic"` | no |
 
 ## Outputs
