@@ -140,9 +140,10 @@ module "nginx" {
 }
 
 resource "azurerm_network_security_rule" "ingress_public_allow" {
-  depends_on                  = [module.kube, module.argocd, module.nginx]
-  for_each                    = local.nsg_obj
-  name                        = format("%s.nsg", each.key)
+  depends_on = [module.kube, module.argocd, module.nginx]
+  for_each   = local.rule_map
+
+  name                        = each.value.name
   priority                    = each.value.priority
   direction                   = "Inbound"
   access                      = "Allow"
@@ -188,10 +189,3 @@ module "acr" {
   tags                = module.metadata.tags
 }
 
-resource "null_resource" "aks_connect" {
-  depends_on = [module.kube]
-  provisioner "local-exec" {
-    command     = "az aks get-credentials --name ${module.kube.name} --resource-group ${azurerm_resource_group.rg.name}"
-    interpreter = ["PowerShell", "-Command"]
-  }
-}

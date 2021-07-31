@@ -51,3 +51,46 @@ variable "dns_name" {
   type        = string
 }
 
+variable "ingress_ip" {
+  default = ""
+}
+
+variable "argo_ingress_ip" {
+  default = ""
+}
+
+variable "rules" {
+  default = {
+    "rule1" = {
+      "port"     = "80"
+      "name"     = "nginxAllowHTTPInbound"
+      "type"     = "nginx"
+      "ip"       = ""
+      "priority" = "200"
+    },
+    "rule2" = {
+      "port"     = "443"
+      "name"     = "nginxAllowHTTPSInbound"
+      "type"     = "nginx"
+      "ip"       = ""
+      "priority" = "201"
+    },
+    "rule3" = {
+      "port"     = "80"
+      "name"     = "argocdAllowHTTPInbound"
+      "type"     = "argocd"
+      "ip"       = ""
+      "priority" = "202"
+
+    },
+    "rule4" = {
+      "port"     = "443"
+      "name"     = "argocdAllowHTTPSInbound"
+      "type"     = "argocd"
+      "ip"       = ""
+      "priority" = "203"
+
+    }
+  }
+}
+
