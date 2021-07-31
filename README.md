@@ -52,10 +52,8 @@ terraform apply
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
-| argo\_ingress\_ip | n/a | `string` | `""` | no |
 | create\_namespace | Boolean to create namespace | `bool` | `false` | no |
 | dns\_name | DNS name | `string` | n/a | yes |
-| ingress\_ip | n/a | `string` | `""` | no |
 | names | Names to be applied to resources (inclusive) | <pre>object({<br>    environment         = string<br>    location            = string<br>    market              = string<br>    business_unit       = string<br>    product_name        = string<br>    project             = string<br>    product_group       = string<br>    resource_group_type = string<br>    subscription_type   = string<br>    resource_group_type = string<br>    subscription_id     = string<br><br>  })</pre> | n/a | yes |
 | namespace | Namespace for ingress controller | `string` | n/a | yes |
 | parent\_domain | pre-existing parent domain in which to create the NS record for the child domain | `string` | n/a | yes |
