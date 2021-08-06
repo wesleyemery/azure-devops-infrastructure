@@ -2,7 +2,7 @@
 ## Azure Demo Infrastructure 
 
 ### Diagram
-![Alt text](docs/demoDiagram.png?raw=true "Infrastructure Diagram")
+![Alt text](docs/diagramDemo.png?raw=true "Infrastructure Diagram")
 
 ### Deployment
 The steps in deploying the newly configured infrastructure are to run:
