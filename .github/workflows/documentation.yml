@@ -16,9 +16,9 @@ jobs:
         tf_docs_output_method: inject
         tf_docs_git_push: 'true'
 
-        - name: Lint Code Base
-          uses: github/super-linter@v4
-          env:
-            VALIDATE_ALL_CODEBASE: false
-            DEFAULT_BRANCH: master
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Lint Code Base
+      uses: github/super-linter@v4
+      env:
+        VALIDATE_ALL_CODEBASE: false
+        DEFAULT_BRANCH: master
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
